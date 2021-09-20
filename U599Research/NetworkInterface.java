@@ -1,6 +1,6 @@
-package NetworkTesting;
+package U599Research;
 
-public interface Network 
+public interface NetworkInterface 
 {
 	public void graphGenerator();
 	

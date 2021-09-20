@@ -10,12 +10,14 @@ public class Network implements NetworkInterface
 	
 	public Object nodePicker(Object graph) 
 	{
+		return graph;
 		//picks the two specific nodes that will be used in the SPP calculation 
 	}
 	
 	
 	public double recordTime()
 	{
+		return 0;
 		//method records the time per simulation, may need to have seperate class
 	}
 	
@@ -28,7 +30,26 @@ public class Network implements NetworkInterface
 	
 	public Object readMatrix(String fileName)
 	{
+		return fileName;
 		//reads the saved graph from a txt file and reloads the graph for testing
+	}
+
+	@Override
+	public void graphGenerator() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object graphToMatrix(Object graph) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object matrixToGraph(Object matrix) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
