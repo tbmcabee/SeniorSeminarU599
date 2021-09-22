@@ -4,23 +4,24 @@ import java.util.*;
 
 public class NetworkNode 
 {
-	private ArrayList node;
 	private int nodeNumber;
 	private int arraySize;
+	ArrayList<ArrayNode> nodeArray = new ArrayList<>(graphCreator.numberOfNodes); //Watch to see if it works correctly or not
 	
 	public NetworkNode(int i)
 	{
-		node = new ArrayList<>();
 		nodeNumber = i;
 		arraySize = 0;
 	}
 	
-	public Boolean addEdge(NetworkNode n)
+	public Boolean addEdge(NetworkNode n, int w)
 	{
 		boolean alreadyAdded = false;
+		int edgeWeight = w;
+		
 		for (int i = 0; i < arraySize; i++)
 		{
-			if (n == node.get(i))
+			if (n == nodeArray.get(i).getStoredNode())
 			{
 				alreadyAdded = true;
 			}
@@ -29,24 +30,25 @@ public class NetworkNode
 		if (alreadyAdded)
 		{
 			System.out.println("Connection already exists");
+			return alreadyAdded;
 		}
 		else
 		{
-			this.node.add(n);
+			ArrayNode nodeObject = new ArrayNode(n, edgeWeight);
+			this.nodeArray.add(nodeObject);
 			arraySize += 1;
+			return alreadyAdded;
 		}
-		
-		return alreadyAdded;
 	}
 
-	public ArrayList getNode() 
+	public ArrayList getNodeArray() 
 	{
-		return node;
+		return nodeArray;
 	}
 
-	public void setNode(ArrayList node) 
+	public void setNodeArray(ArrayList node) 
 	{
-		this.node = node;
+		this.nodeArray = node;
 	}
 
 	public int getNodeNumber() 

@@ -5,7 +5,7 @@ import java.io.*;
 
 public class graphCreator 
 {
-	private int numberOfNodes = 0;
+	static int numberOfNodes = 0;
 	private int numberOfEdges = 0;
 	
 	@SuppressWarnings("unchecked")
@@ -29,18 +29,38 @@ public class graphCreator
 		
 		for (int i = 0; i < numberOfEdges; i++)
 		{
-			for (int b = 0; b < numberOfNodes; b++)
+			boolean[] checkConnect = new boolean[numberOfNodes];
+			
+			if (checkConnect[i])
 			{
+				NetworkNode node1 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
+				//Try to grab a random int that does not equal i
+				NetworkNode node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
 				
+				while(node1.addEdge(node2, r.nextInt(100)))
+				{
+					//Runs loop until AlreadyAdded is not True
+					node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
+				}
+				
+				node2.addEdge(node1, r.nextInt(100));
 			}
+			else
+			{
+				NetworkNode node1 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
+				NetworkNode node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
+				
+				while(node1.addEdge(node2, r.nextInt(100)))
+				{
+					//Runs loop until AlreadyAdded is not True
+					node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
+				}
+				
+				node2.addEdge(node1, r.nextInt(100));
+			}
+			
 		}
 		
-	}
-	
-	public void addEdge(NetworkNode a, NetworkNode b)
-	{
-		a.addEdge(b);
-		b.addEdge(a);
 	}
 	
 }
