@@ -14,10 +14,25 @@ public class NetworkNode
 		arraySize = 0;
 	}
 	
-	public Boolean addEdge(NetworkNode n, int w)
+	public void addEdge(NetworkNode n, int w)
 	{
-		boolean alreadyAdded = false;
 		int edgeWeight = w;
+		
+		if (checkConnection(n))
+		{
+			System.out.println("Connection already exists");
+		}
+		else
+		{
+			ArrayNode nodeObject = new ArrayNode(n, edgeWeight);
+			this.nodeArray.add(nodeObject);
+			arraySize += 1;
+		}
+	}
+	
+	public Boolean checkConnection(NetworkNode n)
+	{
+		Boolean alreadyAdded = false;
 		
 		for (int i = 0; i < arraySize; i++)
 		{
@@ -27,18 +42,7 @@ public class NetworkNode
 			}
 		}
 		
-		if (alreadyAdded)
-		{
-			System.out.println("Connection already exists");
-			return alreadyAdded;
-		}
-		else
-		{
-			ArrayNode nodeObject = new ArrayNode(n, edgeWeight);
-			this.nodeArray.add(nodeObject);
-			arraySize += 1;
-			return alreadyAdded;
-		}
+		return alreadyAdded;
 	}
 
 	public ArrayList getNodeArray() 

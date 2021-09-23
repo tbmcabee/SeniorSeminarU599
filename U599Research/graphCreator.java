@@ -19,45 +19,44 @@ public class graphCreator
 		
 		numberOfEdges = r.nextInt(numberOfNodes) + 1;
 		
-		List<List<NetworkNode>> graphList = new ArrayList<>(numberOfNodes);
+		ArrayList<NetworkNode> graphList = new ArrayList<>(numberOfNodes);
 		
 		for (int i = 0; i < numberOfNodes; i++)
 		{
 			NetworkNode node = new NetworkNode(i);
-			graphList.add((List<NetworkNode>) node);
+			graphList.add(node);
 		}
 		
 		for (int i = 0; i < numberOfEdges; i++)
 		{
-			boolean[] checkConnect = new boolean[numberOfNodes];
+			int[] checkConnect = new int[numberOfNodes];
 			
-			if (checkConnect[i])
+			for (int b = 0; b < numberOfNodes; b++)
 			{
-				NetworkNode node1 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
-				//Try to grab a random int that does not equal i
-				NetworkNode node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
-				
-				while(node1.addEdge(node2, r.nextInt(100)))
-				{
-					//Runs loop until AlreadyAdded is not True
-					node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
-				}
-				
-				node2.addEdge(node1, r.nextInt(100));
+				checkConnect[b] = 0;
 			}
-			else
+			
+			int node1Rand = r.nextInt(numberOfNodes);
+			int node2Rand = r.nextInt(numberOfNodes);
+			
+			while((checkConnect[node1Rand] >= 4 && checkConnect[node2Rand] >= 4) || node1Rand == node2Rand)
 			{
-				NetworkNode node1 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
-				NetworkNode node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
-				
-				while(node1.addEdge(node2, r.nextInt(100)))
-				{
-					//Runs loop until AlreadyAdded is not True
-					node2 = (NetworkNode) graphList.get(r.nextInt(numberOfNodes));
-				}
-				
-				node2.addEdge(node1, r.nextInt(100));
+				node1Rand = r.nextInt(numberOfNodes);
+				node2Rand = r.nextInt(numberOfNodes);
 			}
+			
+			//Need to check if the node has been added yet!!
+			
+			NetworkNode node1 = graphList.get(node1Rand);
+			NetworkNode node2 = graphList.get(node2Rand);
+			
+			while(node1.addEdge(node2, r.nextInt(100)))
+			{
+				//Runs loop until AlreadyAdded is not True
+				node2 = graphList.get(r.nextInt(numberOfNodes));
+			}
+			
+			node2.addEdge(node1, r.nextInt(100));
 			
 		}
 		
