@@ -17,17 +17,11 @@ public class NetworkNode
 	public void addEdge(NetworkNode n, int w)
 	{
 		int edgeWeight = w;
-		
-		if (checkConnection(n))
-		{
-			System.out.println("Connection already exists");
-		}
-		else
-		{
-			ArrayNode nodeObject = new ArrayNode(n, edgeWeight);
-			this.nodeArray.add(nodeObject);
-			arraySize += 1;
-		}
+
+		ArrayNode nodeObject = new ArrayNode(n, edgeWeight);
+		this.nodeArray.add(nodeObject);
+		arraySize += 1;	
+
 	}
 	
 	public Boolean checkConnection(NetworkNode n)
@@ -39,6 +33,7 @@ public class NetworkNode
 			if (n == nodeArray.get(i).getStoredNode())
 			{
 				alreadyAdded = true;
+				System.out.println("Connection already exists");
 			}
 		}
 		

@@ -8,7 +8,6 @@ public class graphCreator
 	static int numberOfNodes = 0;
 	private int numberOfEdges = 0;
 	
-	@SuppressWarnings("unchecked")
 	public graphCreator(int n)
 	{
 		//constructor that creates a random graph with random edge weights based upon the arguement feed into the method
@@ -36,10 +35,10 @@ public class graphCreator
 				checkConnect[b] = 0;
 			}
 			
-			int node1Rand = r.nextInt(numberOfNodes);
+			int node1Rand = r.nextInt(numberOfNodes); //Grabs a random int value between 0 and numberOfNodes, this will allow for a random node to be chosen 
 			int node2Rand = r.nextInt(numberOfNodes);
 			
-			while((checkConnect[node1Rand] >= 4 && checkConnect[node2Rand] >= 4) || node1Rand == node2Rand)
+			while((checkConnect[node1Rand] >= 4 && checkConnect[node2Rand] >= 4) || node1Rand == node2Rand) //Checks if the nodes have greater then 4 connections a piece or if it is the same node
 			{
 				node1Rand = r.nextInt(numberOfNodes);
 				node2Rand = r.nextInt(numberOfNodes);
@@ -50,13 +49,15 @@ public class graphCreator
 			NetworkNode node1 = graphList.get(node1Rand);
 			NetworkNode node2 = graphList.get(node2Rand);
 			
-			while(node1.addEdge(node2, r.nextInt(100)))
+			while(node1.checkConnection(node2))
 			{
-				//Runs loop until AlreadyAdded is not True
 				node2 = graphList.get(r.nextInt(numberOfNodes));
 			}
 			
-			node2.addEdge(node1, r.nextInt(100));
+			int edgeWeight = r.nextInt(100);
+			
+			node1.addEdge(node2, edgeWeight);
+			node2.addEdge(node1, edgeWeight);
 			
 		}
 		
