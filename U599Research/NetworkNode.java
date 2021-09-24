@@ -33,21 +33,37 @@ public class NetworkNode
 			if (n == nodeArray.get(i).getStoredNode())
 			{
 				alreadyAdded = true;
-				System.out.println("Connection already exists");
 			}
 		}
 		
 		return alreadyAdded;
 	}
+	
+	public String toString()
+	{
+		 return "Connections for Node " + nodeNumber + ": " + toString(0);
+	}
+	
+	public String toString(int index)
+	{
+		if (index == arraySize)
+		{
+			return " ";
+		}
+		else
+		{
+			return nodeArray.get(index).getStoredNode().getNodeNumber() + " " + toString(index+1);
+		}
+	}
 
-	public ArrayList getNodeArray() 
+	public ArrayList<ArrayNode> getNodeArray() 
 	{
 		return nodeArray;
 	}
 
-	public void setNodeArray(ArrayList node) 
+	public void setNodeArray(ArrayList<ArrayNode> nodeArray) 
 	{
-		this.nodeArray = node;
+		this.nodeArray = nodeArray;
 	}
 
 	public int getNodeNumber() 
