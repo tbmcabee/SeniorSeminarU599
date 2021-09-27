@@ -1,6 +1,6 @@
-package NetworkTesting;
+package U599Research;
 
-public interface NetworkNode 
+public interface NodeInterface 
 {
 	public void updateRoutingTable(Object graph);
 	
@@ -11,5 +11,6 @@ public interface NetworkNode
 	public void setNodeName();
 	
 	public String getNodeName();
-
+	
+	
 }
