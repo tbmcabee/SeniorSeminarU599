@@ -14,8 +14,7 @@ public class graphCreator
 		//constructor that creates a random graph with random edge weights based upon the arguement feed into the method
 		//may need to have separate class
 		numberOfNodes = n;
-		numberOfEdges = r.nextInt(numberOfNodes*(numberOfNodes-1))+1; //Try to implement the geeks for geeks checks!
-		
+
 		for (int i = 0; i < numberOfNodes; i++)
 		{
 			NetworkNode node = new NetworkNode(i);
@@ -24,18 +23,18 @@ public class graphCreator
 		
 		initalGraph(graphList, numberOfNodes);
 		
-		printNodeConnections(graphList, numberOfNodes);
+		int[] howMannyConnect = new int[numberOfNodes];
 		
-		for (int i = 0; i < (3*numberOfNodes); i++) //This will create random connections between each of the nodes, until there are 4 connections per node
+		for (int i = 0; i < numberOfNodes; i++)
 		{
-			int[] howMannyConnect = new int[numberOfNodes];
+			howMannyConnect[i] = graphList.get(i).getArraySize();
+		}
+		
+		for (int i = 0; i < (numberOfNodes/2); i++) //This will create random connections between each of the nodes, until there are 4 connections per node
+		{
+			
 			int edgeWeight = r.nextInt(100);
 			randomPair randPair;
-			
-			for (int b = 0; b < numberOfNodes; b++)
-			{
-				howMannyConnect[b] = graphList.get(i).getArraySize();
-			}
 			
 			int node1Rand = r.nextInt(numberOfNodes); //Grabs a random int value between 0 and numberOfNodes, this will allow for a random node to be chosen 
 			int node2Rand = r.nextInt(numberOfNodes);
@@ -50,6 +49,8 @@ public class graphCreator
 			
 			while(node1.checkConnection(node2))
 			{
+				node2Rand = r.nextInt(numberOfNodes);
+				
 				randPair = checkRandNumbers(howMannyConnect, node1Rand, node2Rand, numberOfNodes);
 				
 				node2Rand = randPair.getRandTwo();
@@ -76,26 +77,24 @@ public class graphCreator
 			graphList.get(i).addEdge(graphList.get(i+1), randomEdgeWeight);
 			graphList.get(i+1).addEdge(graphList.get(i), randomEdgeWeight);
 		}
-		
-		printNodeConnections(graphList, numNodes);
+
 		
 	}
 	
 	public randomPair checkRandNumbers(int[] intArray, int r1, int r2, int numNode)
 	{
-		while((intArray[r1] == 3 || intArray[r2] == 3) || r1 == r2) //Checks if the nodes have greater then 4 connections a piece or if it is the same node
+		while((intArray[r1] == 4 || intArray[r2] == 4) || r1 == r2) //Checks if the nodes have greater then 4 connections a piece or if it is the same node
 		{
-			if (intArray[r1] == 3)
+			if (intArray[r1] == 4)
 			{
 				r1 = r.nextInt(numNode);
 			}
-			else if (intArray[r2] == 3)
+			else if (intArray[r2] == 4)
 			{
 				r2 = r.nextInt(numNode);
 			}
 			else
 			{	
-//				r1 = r.nextInt(numNode);
 				r2 = r.nextInt(numNode);
 			}
 		}

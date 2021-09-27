@@ -2,7 +2,7 @@ package U599Research;
 
 public class ArrayNode 
 {
-	private NetworkNode storedNode; //Maybe we can store just the nodeNumber instead? When test cases grow this could be a performance issue!
+	private NetworkNode storedNode; 
 	private int edgeWeight;
 	
 	public ArrayNode(NetworkNode s, int w)
