@@ -52,7 +52,7 @@ public class NetworkNode
 		}
 		else
 		{
-			return "Node: " + nodeArray.get(index).getStoredNode().getNodeNumber()  + " Weight: " + nodeArray.get(index).getEdgeWeight() + " " + toString(index+1);
+			return "N: (" + nodeArray.get(index).getStoredNode().getNodeNumber()  + ") W: (" + nodeArray.get(index).getEdgeWeight() + ") " + toString(index+1);
 		}
 	}
 

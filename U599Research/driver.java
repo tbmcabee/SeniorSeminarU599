@@ -1,21 +1,33 @@
 package U599Research;
 
+import java.util.*;
+
 public class driver
 {
 	public static void main(String [] args)
 	{
-		int n1 = 10;
-		int n2 = 20;
-		int n3 = 40;
-		int n4 = 100;
-		int n5 = 10000;
-		
-		graphCreator testGraph = new graphCreator(n5);
-		
-		for (int i = 0; i < n5; i++)
+		while(true)
 		{
-			System.out.println(testGraph.grabNode(i).toString());
+			Scanner input = new Scanner(System.in);
+			
+			System.out.println("Enter the amount of Nodes to be generated: ");
+			String inputNodes = input.nextLine();
+			
+			if (inputNodes.equalsIgnoreCase("stop"))
+			{
+				System.exit(0);
+			}
+			
+			int amountOfNodes = Integer.parseInt(inputNodes);
+			
+			graphCreator testGraph = new graphCreator(amountOfNodes);
+			
+			for (int i = 0; i < amountOfNodes; i++)
+			{
+				System.out.println(testGraph.grabNode(i).toString());
+			}
 		}
+		
 	}
 	
 }
