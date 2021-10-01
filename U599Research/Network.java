@@ -2,7 +2,7 @@ package U599Research;
 
 public class Network implements NetworkInterface
 {	
-	public Network(graphCreator g, Object a, int num)
+	public Network(graphGenerator g, Object a, int num)
 	{
 		//constructor takes in the created graph and the algorithm and then simulates it "num" times
 		//Will use nodePicker, recordTime, etc

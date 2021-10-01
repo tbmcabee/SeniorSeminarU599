@@ -2,16 +2,16 @@ package U599Research;
 
 import java.util.*;
 
-public class graphCreator 
+public class graphGenerator 
 {
 	static int numberOfNodes;
 	public int numberOfEdges;
 	static Random r = new Random();
 	ArrayList<NetworkNode> graphList = new ArrayList<>(numberOfNodes);
 	
-	public graphCreator(int n)
+	public graphGenerator(int n)
 	{
-		//constructor that creates a random graph with random edge weights based upon the arguement feed into the method
+		//constructor that creates a random graph with random edge weights based upon the argument feed into the method
 		//may need to have separate class
 		numberOfNodes = n;
 

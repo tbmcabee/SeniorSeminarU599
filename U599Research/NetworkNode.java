@@ -6,7 +6,7 @@ public class NetworkNode
 {
 	private int nodeNumber;
 	private int arraySize;
-	ArrayList<ArrayNode> nodeArray = new ArrayList<>(graphCreator.numberOfNodes); //Watch to see if it works correctly or not
+	ArrayList<ArrayNode> nodeArray = new ArrayList<>(graphGenerator.numberOfNodes); //Watch to see if it works correctly or not
 	
 	public NetworkNode(int i)
 	{

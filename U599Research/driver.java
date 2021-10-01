@@ -20,7 +20,7 @@ public class driver
 			
 			int amountOfNodes = Integer.parseInt(inputNodes);
 			
-			graphCreator testGraph = new graphCreator(amountOfNodes);
+			graphGenerator testGraph = new graphGenerator(amountOfNodes);
 			
 			for (int i = 0; i < amountOfNodes; i++)
 			{

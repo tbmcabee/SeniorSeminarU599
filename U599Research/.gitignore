@@ -6,3 +6,6 @@
 /NodeInterface.class
 /ArrayNode.class
 /randomPair.class
+/graphGenerator.class
+/BellmanFord.class
+/Dijkstra.class
