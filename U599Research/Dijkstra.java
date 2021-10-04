@@ -26,6 +26,10 @@ public class Dijkstra
 			}
 		}
 		
+		algorithmRun(graph, initalNode, finalNode, spSet, spSetSize);
+		
+		//For now results are printed out for total distance, however I need to still add a method for recording results!
+		
 	}
 	
 	public int checkMinDistance(NetworkNode node, int[] spSet, int spSetSize)
@@ -58,9 +62,12 @@ public class Dijkstra
 				}
 			}
 			
-			//Need to add a check if there are no available minimum distances, 
-			//basically if all the nodes have been accounted for but we still haven't reached the desired node
-			//we need to backtrack to the next node with available nodes to explore
+		}
+		
+		//If minNodeNumber == -1, then there were no available connections that were not already added to the spSet
+		if (minNodeNumber == -1)
+		{
+			System.out.println("No avaiable connections!");
 		}
 		
 		return minNodeNumber;
@@ -68,22 +75,52 @@ public class Dijkstra
 	
 	//use recursion to enter the nodes and constantly check for new nodes
 	
-	public void algorithmRun(NetworkNode inital, int[] spSet, int spSetSize)
+	public void algorithmRun(graphGenerator graph, NetworkNode inital, NetworkNode destination, int[] spSet, int spSetSize)
 	{
 		int currentSpPosition = 0;
 		int nextNodeNumber = checkMinDistance(inital, spSet, spSetSize);
-		NetworkNode nextNode = inital.getNodeArray().get(nextNodeNumber).getStoredNode();
 		
-		spSet[currentSpPosition] = inital.getNodeNumber();
-		
-		nextNode.setTotalWeight(nextNode.getNodeArray().get(inital.getNodeNumber()).getEdgeWeight());
-		
-		algorithmRun(nextNode, spSet, spSetSize, currentSpPosition+1);
+		if (nextNodeNumber == -1)
+		{
+			System.out.println("Distance: " + inital.getTotalWeight());
+		}
+		else
+		{
+			NetworkNode nextNode = graph.grabNode(nextNodeNumber);
+			
+			spSet[currentSpPosition] = inital.getNodeNumber();
+			
+			nextNode.setTotalWeight(nextNode.getNodeArray().get(inital.getNodeNumber()).getEdgeWeight());
+			
+			algorithmRun(graph, nextNode, destination, spSet, spSetSize, currentSpPosition+1);
+		}
 		
 	}
 	
-	public void algorithmRun(NetworkNode currentNode, int[] spSet, int spSetSize, int currentspPosition)
+	public void algorithmRun(graphGenerator graph, NetworkNode currentNode, NetworkNode destination, int[] spSet, int spSetSize, int currentspPosition)
 	{
+		int nextNodeNumber = checkMinDistance(currentNode, spSet, spSetSize);
+		NetworkNode nextNode = graph.grabNode(nextNodeNumber);
+		
+		spSet[currentspPosition] = currentNode.getNodeNumber();
+		
+		if (nextNodeNumber == -1)
+		{
+			System.out.println("Total Distance until stop: " + currentNode.getTotalWeight());
+		}
+		else
+		{
+			if (spSet[currentspPosition] == destination.getNodeNumber())
+			{
+				System.out.println("Distance to Destination: " + currentNode.getTotalWeight());
+			}
+			else
+			{
+				nextNode.setTotalWeight(nextNode.getNodeArray().get(currentNode.getNodeNumber()).getEdgeWeight());
+				
+				algorithmRun(graph, nextNode, destination, spSet, spSetSize, currentspPosition+1);
+			}
+		}
 		
 	}
 	

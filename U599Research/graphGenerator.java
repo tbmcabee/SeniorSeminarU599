@@ -117,4 +117,9 @@ public class graphGenerator
 		return graphList.get(index);
 	}
 	
+	public int getNumOfNodes()
+	{
+		return numberOfNodes; 
+	}
+	
 }
