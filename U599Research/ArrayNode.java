@@ -4,6 +4,7 @@ public class ArrayNode
 {
 	private NetworkNode storedNode; 
 	private int edgeWeight;
+
 	
 	public ArrayNode(NetworkNode s, int w)
 	{

@@ -6,6 +6,7 @@ public class NetworkNode
 {
 	private int nodeNumber;
 	private int arraySize;
+	private int totalWeight;
 	ArrayList<ArrayNode> nodeArray = new ArrayList<>(graphGenerator.numberOfNodes); //Watch to see if it works correctly or not
 	
 	public NetworkNode(int i)
@@ -84,6 +85,16 @@ public class NetworkNode
 	public void setArraySize(int arraySize) 
 	{
 		this.arraySize = arraySize;
+	}
+	
+	public int getTotalWeight()
+	{
+		return this.totalWeight;
+	}
+	
+	public void setTotalWeight(int totalWeight)
+	{
+		this.totalWeight = totalWeight;
 	}
 	
 	
