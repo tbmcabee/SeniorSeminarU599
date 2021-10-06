@@ -5,12 +5,84 @@ import java.util.*;
 
 public class Network
 {	
+	String choosenAlg;
+	int nodeNum;
+	long[] avgSimTimes;
+	
+	graphGenerator networkGraph;
+	
 	Random r = new Random();
 	
-	public Network(graphGenerator g, Object a, int num)
+	public Network(String a, int num)
 	{
-		//constructor takes in the created graph and the algorithm and then simulates it "num" times
-		//Will use nodePicker, recordTime, etc
+		this.choosenAlg = a;
+		this.nodeNum = num;
+		this.networkGraph = new graphGenerator(nodeNum);
+	}
+	
+	public long[] simulationRun(Network network)
+	{
+		long avgSimRoundTime = 0;
+		long totalSimRoundTime = 0;
+		int numOfSimulations = 50;
+		int numOfPairs = 3;
+		int inital;
+		int finish;
+		
+		
+		avgSimTimes = new long[numOfPairs];
+		
+		if (this.choosenAlg.equalsIgnoreCase("dijkstra"))
+		{
+			for (int i = 0; i < numOfPairs; i++)
+			{
+				randomPair currentNodePair = nodePicker(this.networkGraph);
+				
+				inital = currentNodePair.getRandOne();
+				finish = currentNodePair.getRandTwo();
+				
+				for (int b = 0; b < numOfSimulations; b++)
+				{
+					
+					Dijkstra test = new Dijkstra(networkGraph, inital, finish);
+					totalSimRoundTime += test.getElapsedTime();
+				}
+				
+				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
+				avgSimTimes[i] = avgSimRoundTime;
+			}
+			
+			return avgSimTimes;
+		}
+		else if (this.choosenAlg.equalsIgnoreCase("bellman ford"))
+		{
+//			for (int i = 0; i < numOfPairs; i++)
+//			{
+//				randomPair currentNodePair = nodePicker(this.networkGraph);
+//				
+//				inital = currentNodePair.getRandOne();
+//				finish = currentNodePair.getRandTwo();
+//				
+//				for (int b = 0; b < numOfSimulations; b++)
+//				{
+//					
+//					BellmanFord test = new BellmanFord(networkGraph, inital, finish);
+//					totalSimRoundTime += test.getElapsedTime();
+//				}
+//				
+//				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
+//				avgSimTimes[i] = avgSimRoundTime;
+//			}
+//			
+			return avgSimTimes;
+		}
+		else
+		{
+			System.out.println("Invalid Algorithm Choice");
+			
+			return avgSimTimes;
+		}
+		
 	}
 	
 	public randomPair nodePicker(graphGenerator graph) 
@@ -29,43 +101,35 @@ public class Network
 		return newNodePair;
 		//picks the two specific nodes that will be used in the SPP calculation 
 	}
-	
-	
-	public double recordTime()
+
+	public String getChoosenAlg() 
 	{
-		return 0;
-		//method records the time per simulation, may need to have seperate class
-	}
-	
-	
-	public void saveMatrix(Object matrix)
-	{
-		//saves the generated graph to a txt file, will need to also have a readMatrix method
-	}
-	
-	
-	public Object readMatrix(String fileName)
-	{
-		return fileName;
-		//reads the saved graph from a txt file and reloads the graph for testing
+		return choosenAlg;
 	}
 
-	public void graphGenerator() 
+	public void setChoosenAlg(String choosenAlg) 
 	{
-		// TODO Auto-generated method stub
-		
+		this.choosenAlg = choosenAlg;
 	}
 
-	public Object graphToMatrix(Object graph) 
+	public int getNodeNum() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return nodeNum;
 	}
 
-	public Object matrixToGraph(Object matrix) 
+	public void setNodeNum(int nodeNum) 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		this.nodeNum = nodeNum;
 	}
 
+	public graphGenerator getNetworkGraph() 
+	{
+		return networkGraph;
+	}
+
+	public void setNetworkGraph(graphGenerator networkGraph) 
+	{
+		this.networkGraph = networkGraph;
+	}
+	
 }

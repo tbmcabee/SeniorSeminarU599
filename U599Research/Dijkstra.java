@@ -2,6 +2,11 @@ package U599Research;
 
 public class Dijkstra 
 {
+	long startTime;
+	long endTime;
+	long elapsedTime;
+	
+	
 	public Dijkstra(graphGenerator graph, int node1, int node2)
 	{
 		NetworkNode initalNode = graph.grabNode(node1);
@@ -18,7 +23,7 @@ public class Dijkstra
 		{
 			if (i == node1)
 			{ 
-				initalNode.setTotalWeight(0); //Sets the inital node to 0
+				initalNode.setTotalWeight(0); //Sets the initial node to 0
 			}
 			else
 			{
@@ -26,7 +31,11 @@ public class Dijkstra
 			}
 		}
 		
+		startTime = System.nanoTime();
 		algorithmRun(graph, initalNode, finalNode, spSet, spSetSize);
+		endTime = System.nanoTime();
+		
+		elapsedTime = endTime - startTime;
 		
 		//For now results are printed out for total distance, however I need to still add a method for recording results!
 		
@@ -122,6 +131,36 @@ public class Dijkstra
 			}
 		}
 		
+	}
+	
+	public long getStartTime() 
+	{
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) 
+	{
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() 
+	{
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) 
+	{
+		this.endTime = endTime;
+	}
+
+	public long getElapsedTime() 
+	{
+		return elapsedTime;
+	}
+
+	public void setElapsedTime(long elapsedTime) 
+	{
+		this.elapsedTime = elapsedTime;
 	}
 	
 }
