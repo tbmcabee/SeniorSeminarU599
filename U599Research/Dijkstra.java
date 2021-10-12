@@ -24,47 +24,64 @@ public class Dijkstra
 			if (i == node1)
 			{ 
 				initalNode.setTotalWeight(0); //Sets the initial node to 0
+				spSet[i] = 0;
 			}
 			else
 			{
 				graph.grabNode(i).setTotalWeight(-1);; //Sets the other nodes to "infinity", in this program -1 weight is equal to infinity
+				spSet[i] = -1;
 			}
 		}
 		
 		startTime = System.nanoTime();
-		algorithmRun(graph, initalNode, finalNode, spSet, spSetSize);
+		algorithmRun(graph, initalNode, finalNode, spSet);
 		endTime = System.nanoTime();
 		
+		System.out.println("The total shortest distance from Node " + node1 + " to Node " + node2 + " is " + finalNode.getTotalWeight());
 		elapsedTime = endTime - startTime;
+		
+		for (int i = 0; i < numberOfNodes; i ++)
+		{
+			graph.grabNode(i).setVisited(false);
+		}
 		
 		//For now results are printed out for total distance, however I need to still add a method for recording results!
 		
 	}
 	
-	public int checkMinDistance(NetworkNode node, int[] spSet, int spSetSize)
+	public int checkMinDistance(graphGenerator graph, NetworkNode node, int[] spSet)
 	{
 		int arraySize = node.getArraySize();
 		int minWeight = 101; //Max possible weight for a connection is 100
 		int currentWeightCheck;
 		int currentNodeCheck;
 		int minNodeNumber = -1;
-		boolean alreadyAdded = false;
 		
 		for (int i =  0; i < arraySize; i++)
 		{
 			currentWeightCheck = node.getNodeArray().get(i).getEdgeWeight();
 			currentNodeCheck = node.getNodeArray().get(i).getStoredNode().getNodeNumber();
 			
+			//Checks if the connection has yet to be defined
+			if (spSet[currentNodeCheck] == -1)
+			{
+				spSet[currentNodeCheck] = spSet[node.getNodeNumber()] + currentWeightCheck;
+				
+				node.getNodeArray().get(i).getStoredNode().setTotalWeight(spSet[currentNodeCheck]);
+			}
+			
+			//Checks if the current connection weighs less then the original connection
+			if(spSet[currentNodeCheck] > spSet[node.getNodeNumber()] + currentWeightCheck)
+			{
+				spSet[currentNodeCheck] = spSet[node.getNodeNumber()] + currentWeightCheck;
+				
+				node.getNodeArray().get(i).getStoredNode().setTotalWeight(spSet[currentNodeCheck]);
+			}
+			
+			//Checks if the current Weight connection is less then the current min connection Weight
 			if(currentWeightCheck <= minWeight)
 			{
-				for (int b = 0; b < spSetSize; b++)
-				{
-					if (currentNodeCheck == spSet[b])
-					{
-						alreadyAdded = true;
-					}
-				}
-				if (!alreadyAdded)
+				if (!(node.getNodeArray().get(i).getStoredNode().isVisited())) //Checks if the node has been visited yet
 				{
 					minNodeNumber = currentNodeCheck;
 					minWeight = currentWeightCheck;
@@ -76,7 +93,15 @@ public class Dijkstra
 		//If minNodeNumber == -1, then there were no available connections that were not already added to the spSet
 		if (minNodeNumber == -1)
 		{
-			System.out.println("No avaiable connections!");
+			for (int i = 0; i < graph.getNumOfNodes(); i++)
+			{
+				NetworkNode currentNode = graph.grabNode(i);
+				
+				if (!(currentNode.isVisited()))
+				{
+					minNodeNumber = currentNode.getNodeNumber();
+				}
+			}
 		}
 		
 		return minNodeNumber;
@@ -84,51 +109,40 @@ public class Dijkstra
 	
 	//use recursion to enter the nodes and constantly check for new nodes
 	
-	public void algorithmRun(graphGenerator graph, NetworkNode inital, NetworkNode destination, int[] spSet, int spSetSize)
-	{
-		int currentSpPosition = 0;
-		int nextNodeNumber = checkMinDistance(inital, spSet, spSetSize);
+	public void algorithmRun(graphGenerator graph, NetworkNode inital, NetworkNode destination, int[] spSet)
+	{	
+		int nextNodeNumber = checkMinDistance(graph, inital, spSet);
 		
 		if (nextNodeNumber == -1)
 		{
-			System.out.println("Distance: " + inital.getTotalWeight());
+			System.out.println("The inital node is disconnected");
 		}
 		else
 		{
+			inital.setVisited(true);
+			
 			NetworkNode nextNode = graph.grabNode(nextNodeNumber);
 			
-			spSet[currentSpPosition] = inital.getNodeNumber();
-			
-			nextNode.setTotalWeight(nextNode.getNodeArray().get(inital.getNodeNumber()).getEdgeWeight()); //ERROR HEREEEEEE
-			
-			algorithmRun(graph, nextNode, destination, spSet, spSetSize, currentSpPosition+1);
+			System.out.println("The node path is: Node: " + inital.getNodeNumber() + " " + algorithmRun(graph, nextNode, destination, spSet, " "));
 		}
 		
 	}
 	
-	public void algorithmRun(graphGenerator graph, NetworkNode currentNode, NetworkNode destination, int[] spSet, int spSetSize, int currentspPosition)
+	public String algorithmRun(graphGenerator graph, NetworkNode currentNode, NetworkNode destination, int[] spSet, String toString)
 	{
-		int nextNodeNumber = checkMinDistance(currentNode, spSet, spSetSize);
-		NetworkNode nextNode = graph.grabNode(nextNodeNumber);
-		
-		spSet[currentspPosition] = currentNode.getNodeNumber();
+		int nextNodeNumber = checkMinDistance(graph, currentNode, spSet);
 		
 		if (nextNodeNumber == -1)
 		{
-			System.out.println("Total Distance until stop: " + currentNode.getTotalWeight());
+			return toString + "No more connections at " + currentNode.getNodeNumber() + "!";
 		}
 		else
-		{
-			if (spSet[currentspPosition] == destination.getNodeNumber())
-			{
-				System.out.println("Distance to Destination: " + currentNode.getTotalWeight());
-			}
-			else
-			{
-				nextNode.setTotalWeight(nextNode.getNodeArray().get(currentNode.getNodeNumber()).getEdgeWeight());
-				
-				algorithmRun(graph, nextNode, destination, spSet, spSetSize, currentspPosition+1);
-			}
+		{	
+			currentNode.setVisited(true);
+			
+			NetworkNode nextNode = graph.grabNode(nextNodeNumber);
+			
+			return toString + "Node:  " + currentNode.getNodeNumber() + " " + algorithmRun(graph, nextNode, destination, spSet, " ");
 		}
 		
 	}

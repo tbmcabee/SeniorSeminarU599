@@ -46,7 +46,6 @@ public class Network
 					
 					Dijkstra test = new Dijkstra(networkGraph, inital, finish);
 					totalSimRoundTime += test.getElapsedTime();
-					System.out.println("Time " + b + ": " + test.getElapsedTime());
 				}
 				
 				avgSimRoundTime = totalSimRoundTime/numOfSimulations;

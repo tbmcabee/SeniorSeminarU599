@@ -20,13 +20,13 @@ public class driver
 			
 			int amountOfNodes = Integer.parseInt(inputNodes);
 			
-			System.out.println("Enter the algorithm to be tested: ");
-			String algorithmChoice = input.nextLine();
-			
-			if (inputNodes.equalsIgnoreCase("stop"))
-			{
-				System.exit(0);
-			}
+//			System.out.println("Enter the algorithm to be tested: ");
+//			String algorithmChoice = input.nextLine();
+//			
+//			if (inputNodes.equalsIgnoreCase("stop"))
+//			{
+//				System.exit(0);
+//			}
 			
 //			
 //			graphGenerator testGraph = new graphGenerator(amountOfNodes);
@@ -36,9 +36,19 @@ public class driver
 //				System.out.println(testGraph.grabNode(i).toString());
 //			}
 			
-			Network test = new Network(algorithmChoice, amountOfNodes);
+			Network test = new Network("dijkstra", amountOfNodes);
 			
 			long[] simRuns = test.simulationRun();
+			System.out.println();
+			System.out.println("The average computational time (ns) of the 3 tested pairs within the generated graph ");
+			
+			for (int i = 0; i < simRuns.length; i++)
+			{
+				System.out.println("Tested Pair #" + (i+1) + " Computational Time: " + simRuns[i]);
+			}
+			
+			System.out.println();
+			
 		}
 		
 	}

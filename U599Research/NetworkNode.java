@@ -7,6 +7,7 @@ public class NetworkNode
 	private int nodeNumber;
 	private int arraySize;
 	private int totalWeight;
+	private boolean visited;
 	ArrayList<ArrayNode> nodeArray = new ArrayList<>(graphGenerator.numberOfNodes); //Watch to see if it works correctly or not
 	
 	public NetworkNode(int i)
@@ -96,6 +97,17 @@ public class NetworkNode
 	{
 		this.totalWeight = totalWeight;
 	}
+
+	public boolean isVisited() 
+	{
+		return visited;
+	}
+
+	public void setVisited(boolean visited) 
+	{
+		this.visited = visited;
+	}
+	
 	
 	
 }
