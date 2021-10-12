@@ -8,6 +8,7 @@ public class driver
 	{
 		while(true)
 		{
+			@SuppressWarnings("resource")
 			Scanner input = new Scanner(System.in);
 			
 			System.out.println("Enter the amount of Nodes to be generated: ");

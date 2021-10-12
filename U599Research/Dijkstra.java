@@ -13,8 +13,6 @@ public class Dijkstra
 		NetworkNode finalNode = graph.grabNode(node2);
 		
 		int numberOfNodes = graphGenerator.numberOfNodes;
-		int spSetSize = 0;
-		
 		int[] spSet = new int[numberOfNodes]; //int values will be the node number
 		
 		//Check the initalNode's arrayList connections until we reach the final Node and update values within the spSet as a new path is found
@@ -34,7 +32,7 @@ public class Dijkstra
 		}
 		
 		startTime = System.nanoTime();
-		algorithmRun(graph, initalNode, finalNode, spSet);
+		algorithmRun(graph, initalNode, spSet);
 		endTime = System.nanoTime();
 		
 		System.out.println("The total shortest distance from Node " + node1 + " to Node " + node2 + " is " + finalNode.getTotalWeight());
@@ -109,7 +107,7 @@ public class Dijkstra
 	
 	//use recursion to enter the nodes and constantly check for new nodes
 	
-	public void algorithmRun(graphGenerator graph, NetworkNode inital, NetworkNode destination, int[] spSet)
+	public void algorithmRun(graphGenerator graph, NetworkNode inital, int[] spSet)
 	{	
 		int nextNodeNumber = checkMinDistance(graph, inital, spSet);
 		
@@ -123,12 +121,12 @@ public class Dijkstra
 			
 			NetworkNode nextNode = graph.grabNode(nextNodeNumber);
 			
-			System.out.println("The node path is: Node: " + inital.getNodeNumber() + " " + algorithmRun(graph, nextNode, destination, spSet, " "));
+			System.out.println("The node path is: Node: " + inital.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " "));
 		}
 		
 	}
 	
-	public String algorithmRun(graphGenerator graph, NetworkNode currentNode, NetworkNode destination, int[] spSet, String toString)
+	public String algorithmRun(graphGenerator graph, NetworkNode currentNode, int[] spSet, String toString)
 	{
 		int nextNodeNumber = checkMinDistance(graph, currentNode, spSet);
 		
@@ -142,7 +140,7 @@ public class Dijkstra
 			
 			NetworkNode nextNode = graph.grabNode(nextNodeNumber);
 			
-			return toString + "Node:  " + currentNode.getNodeNumber() + " " + algorithmRun(graph, nextNode, destination, spSet, " ");
+			return toString + "Node:  " + currentNode.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " ");
 		}
 		
 	}
