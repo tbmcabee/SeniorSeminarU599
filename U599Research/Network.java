@@ -20,7 +20,7 @@ public class Network
 		this.networkGraph = new graphGenerator(nodeNum);
 	}
 	
-	public long[] simulationRun(Network network)
+	public long[] simulationRun()
 	{
 		long avgSimRoundTime = 0;
 		long totalSimRoundTime = 0;
@@ -46,6 +46,7 @@ public class Network
 					
 					Dijkstra test = new Dijkstra(networkGraph, inital, finish);
 					totalSimRoundTime += test.getElapsedTime();
+					System.out.println("Time " + b + ": " + test.getElapsedTime());
 				}
 				
 				avgSimRoundTime = totalSimRoundTime/numOfSimulations;

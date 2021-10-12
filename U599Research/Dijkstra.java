@@ -99,7 +99,7 @@ public class Dijkstra
 			
 			spSet[currentSpPosition] = inital.getNodeNumber();
 			
-			nextNode.setTotalWeight(nextNode.getNodeArray().get(inital.getNodeNumber()).getEdgeWeight());
+			nextNode.setTotalWeight(nextNode.getNodeArray().get(inital.getNodeNumber()).getEdgeWeight()); //ERROR HEREEEEEE
 			
 			algorithmRun(graph, nextNode, destination, spSet, spSetSize, currentSpPosition+1);
 		}

@@ -20,12 +20,25 @@ public class driver
 			
 			int amountOfNodes = Integer.parseInt(inputNodes);
 			
-			graphGenerator testGraph = new graphGenerator(amountOfNodes);
+			System.out.println("Enter the algorithm to be tested: ");
+			String algorithmChoice = input.nextLine();
 			
-			for (int i = 0; i < amountOfNodes; i++)
+			if (inputNodes.equalsIgnoreCase("stop"))
 			{
-				System.out.println(testGraph.grabNode(i).toString());
+				System.exit(0);
 			}
+			
+//			
+//			graphGenerator testGraph = new graphGenerator(amountOfNodes);
+//			
+//			for (int i = 0; i < amountOfNodes; i++)
+//			{
+//				System.out.println(testGraph.grabNode(i).toString());
+//			}
+			
+			Network test = new Network(algorithmChoice, amountOfNodes);
+			
+			long[] simRuns = test.simulationRun();
 		}
 		
 	}
