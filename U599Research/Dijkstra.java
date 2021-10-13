@@ -1,23 +1,23 @@
 package U599Research;
 
+//This class handles the Dijkstra algorithm simulation run, it will run the Dijkstra simulation, record the elapsed time for the simulation and then returns the value. 
 public class Dijkstra 
 {
-	long startTime;
-	long endTime;
-	long elapsedTime;
+	long startTime; //Creates a long data value for the simulation run start time
+	long endTime; //Creates a long data value for the simulation run end time
+	long elapsedTime; //Creates a long data value for the simulation run total elapsed time (start time - end time)
 	
-	
+	//The program constructor that will begin the simulation run and record the running times for a single simulation
 	public Dijkstra(graphGenerator graph, int node1, int node2)
 	{
-		NetworkNode initalNode = graph.grabNode(node1);
-		NetworkNode finalNode = graph.grabNode(node2);
+		NetworkNode initalNode = graph.grabNode(node1); //This will initialize a node reference to the node1 int value on the graph (The initial node in the node pair)
+		NetworkNode finalNode = graph.grabNode(node2); //This will initialize a node reference to the node2 int value on the graph (The destination node in the node pair)
 		
-		int numberOfNodes = graphGenerator.numberOfNodes;
-		int[] spSet = new int[numberOfNodes]; //int values will be the node number
+		int numberOfNodes = graphGenerator.numberOfNodes; //creates an int value to store the numberOfNodes generated (A local reference within the class)
+		int[] spSet = new int[numberOfNodes]; //creates a int array for storing the running list of distances within the simulation
 		
-		//Check the initalNode's arrayList connections until we reach the final Node and update values within the spSet as a new path is found
 		
-		for (int i = 0; i < numberOfNodes; i++)
+		for (int i = 0; i < numberOfNodes; i++) //This for loop sets the inital distances for the entire spSet array. -1 represents an infinite value. 
 		{
 			if (i == node1)
 			{ 
@@ -31,34 +31,35 @@ public class Dijkstra
 			}
 		}
 		
-		startTime = System.nanoTime();
-		algorithmRun(graph, initalNode, spSet);
-		endTime = System.nanoTime();
+		startTime = System.nanoTime(); //This will record the start time (In ns)
+		algorithmRun(graph, initalNode, spSet); //Runs the simulation to completion
+		endTime = System.nanoTime(); //This will record the end time (In ns)
 		
-		System.out.println("The total shortest distance from Node " + node1 + " to Node " + node2 + " is " + finalNode.getTotalWeight());
-		elapsedTime = endTime - startTime;
+		System.out.println("The total shortest distance from Node " + node1 + " to Node " + node2 + " is " + finalNode.getTotalWeight()); //A string to output the final total distance for the shortest path
+		elapsedTime = endTime - startTime; //Calculates the elapsed time
 		
-		for (int i = 0; i < numberOfNodes; i ++)
+		for (int i = 0; i < numberOfNodes; i ++) //This for loop resets the visited value within the NetworkNode variables so that the nodes can be revisited when the simulation restarts
 		{
 			graph.grabNode(i).setVisited(false);
 		}
 		
-		//For now results are printed out for total distance, however I need to still add a method for recording results!
-		
 	}
 	
+	//This method checks for the minimum distance between a visited node and its direct neighbors.
+	//This method will return the int value for the next node to visit, either because it is the next unvisited node to check or 
+	//because it has the lowest distance between itself and the current node compared to the other neighbors.
 	public int checkMinDistance(graphGenerator graph, NetworkNode node, int[] spSet)
 	{
-		int arraySize = node.getArraySize();
+		int arraySize = node.getArraySize(); //This will get the size of the visited node's neighbor array
 		int minWeight = 101; //Max possible weight for a connection is 100
-		int currentWeightCheck;
-		int currentNodeCheck;
-		int minNodeNumber = -1;
+		int currentWeightCheck; //Initializes the current weight value as an int
+		int currentNodeCheck; //Initializes the current int value for which neighbor node is being checked
+		int minNodeNumber = -1; //Sets the minimum node int value to -1
 		
-		for (int i =  0; i < arraySize; i++)
+		for (int i =  0; i < arraySize; i++) //This for loop will update each of the neighbors values to its new shortest distance, set its inital distance and checks if the weight is less then the current minimum
 		{
-			currentWeightCheck = node.getNodeArray().get(i).getEdgeWeight();
-			currentNodeCheck = node.getNodeArray().get(i).getStoredNode().getNodeNumber();
+			currentWeightCheck = node.getNodeArray().get(i).getEdgeWeight(); //Grabs the current neighbor's edge weight between the neighbor and the current visited node
+			currentNodeCheck = node.getNodeArray().get(i).getStoredNode().getNodeNumber(); //Grabs the current neighbor's int value for referencing it within the graph
 			
 			//Checks if the connection has yet to be defined
 			if (spSet[currentNodeCheck] == -1)
@@ -89,6 +90,8 @@ public class Dijkstra
 		}
 		
 		//If minNodeNumber == -1, then there were no available connections that were not already added to the spSet
+		//Now the program will look for any unvisited neighbors to begin checking connections again. If there are no more unvisited nodes
+		//then it will still return a -1 value. 
 		if (minNodeNumber == -1)
 		{
 			for (int i = 0; i < graph.getNumOfNodes(); i++)
@@ -105,72 +108,74 @@ public class Dijkstra
 		return minNodeNumber;
 	}
 	
-	//use recursion to enter the nodes and constantly check for new nodes
-	
+	//This method will start the algorithm's run and then record the total shortest distances from the initial node to the other nodes in the graph. It takes in the generated graph object,
+	//the initial node object and the spSet array for recording distances. It does not return a value. 
 	public void algorithmRun(graphGenerator graph, NetworkNode inital, int[] spSet)
 	{	
-		int nextNodeNumber = checkMinDistance(graph, inital, spSet);
+		int nextNodeNumber = checkMinDistance(graph, inital, spSet); //Checks for the minimum distance between the initial node and its neighbors. Returns the neighbor with the shortest distance. 
 		
-		if (nextNodeNumber == -1)
+		if (nextNodeNumber == -1) //The base case for the recursive function. If it is -1 from the start, it means the initial node is disconnected from the graph. 
 		{
 			System.out.println("The inital node is disconnected");
 		}
-		else
+		else //If the value is not -1, then it will begin the recursive run. 
 		{
-			inital.setVisited(true);
+			inital.setVisited(true); //Sets the initial node to visited
 			
-			NetworkNode nextNode = graph.grabNode(nextNodeNumber);
+			NetworkNode nextNode = graph.grabNode(nextNodeNumber); //Creates a reference to the next node to visit
 			
-			System.out.println("The node path is: Node: " + inital.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " "));
+			System.out.println("The node path is: Node: " + inital.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " ")); //Runs the recursive function to the next iteration for the next node. This
+			//recursive run will return a string for each iteration to show the path that the algorithm took. MAINLY FOR BUG TESTING
 		}
 		
 	}
 	
+	//The recursive portion of the simulation run. It takes in the generated graph object, the currently visited node object, the spSet array for distances and the returning string value. It returns a String value.  
 	public String algorithmRun(graphGenerator graph, NetworkNode currentNode, int[] spSet, String toString)
 	{
-		int nextNodeNumber = checkMinDistance(graph, currentNode, spSet);
+		int nextNodeNumber = checkMinDistance(graph, currentNode, spSet); //Checks for the minimum distance between the initial node and its neighbors. Returns the neighbor with the shortest distance. 
 		
-		if (nextNodeNumber == -1)
+		if (nextNodeNumber == -1) //The base case for the recursive function. If this value is -1 then that means there are no more unvisited nodes within the graph. 
 		{
 			return toString + "No more connections at " + currentNode.getNodeNumber() + "!";
 		}
 		else
 		{	
-			currentNode.setVisited(true);
+			currentNode.setVisited(true); //Sets the current node to visited
 			
-			NetworkNode nextNode = graph.grabNode(nextNodeNumber);
+			NetworkNode nextNode = graph.grabNode(nextNodeNumber); //Creates a reference to the next node to visit
 			
-			return toString + "Node:  " + currentNode.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " ");
+			return toString + "Node:  " + currentNode.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " "); //Runs the recursive function to the next iteration for the next node.
 		}
 		
 	}
 	
-	public long getStartTime() 
+	public long getStartTime() //getter for the start time
 	{
 		return startTime;
 	}
 
-	public void setStartTime(long startTime) 
+	public void setStartTime(long startTime) //setter for the start time
 	{
 		this.startTime = startTime;
 	}
 
-	public long getEndTime() 
+	public long getEndTime() //getter for the end time
 	{
 		return endTime;
 	}
 
-	public void setEndTime(long endTime) 
+	public void setEndTime(long endTime) //setter for the end time
 	{
 		this.endTime = endTime;
 	}
 
-	public long getElapsedTime() 
+	public long getElapsedTime() //getter for the elapsed time
 	{
 		return elapsedTime;
 	}
 
-	public void setElapsedTime(long elapsedTime) 
+	public void setElapsedTime(long elapsedTime) //setter for the elapsed time
 	{
 		this.elapsedTime = elapsedTime;
 	}
