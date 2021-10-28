@@ -61,7 +61,7 @@ public class graphGenerator
 				node2 = graphList.get(node2Rand); //This will grab out a new node reference for node2 based upon the new random int value. 
 			}
 			
-			node1.addEdge(node2, edgeWeight); //These two statements will add the nodes toether as neighbors within their own ArrayLists, utilizing the other node's reference and the newly generated edge weight
+			node1.addEdge(node2, edgeWeight); //These two statements will add the nodes together as neighbors within their own ArrayLists, utilizing the other node's reference and the newly generated edge weight
 			node2.addEdge(node1, edgeWeight);
 			
 			howMannyConnect[node1Rand] += 1; //These two statements will index the new connections within the howMannyConnect int array 

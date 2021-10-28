@@ -32,7 +32,7 @@ public class Dijkstra
 		}
 		
 		startTime = System.nanoTime(); //This will record the start time (In ns)
-		algorithmRun(graph, initalNode, spSet); //Runs the simulation to completion
+		algorithmRun(graph, initalNode, spSet, node2); //Runs the simulation to completion
 		endTime = System.nanoTime(); //This will record the end time (In ns)
 		
 		System.out.println("The total shortest distance from Node " + node1 + " to Node " + node2 + " is " + finalNode.getTotalWeight()); //A string to output the final total distance for the shortest path
@@ -48,7 +48,7 @@ public class Dijkstra
 	//This method checks for the minimum distance between a visited node and its direct neighbors.
 	//This method will return the int value for the next node to visit, either because it is the next unvisited node to check or 
 	//because it has the lowest distance between itself and the current node compared to the other neighbors.
-	public int checkMinDistance(graphGenerator graph, NetworkNode node, int[] spSet)
+	public int checkMinDistance(graphGenerator graph, NetworkNode node, int[] spSet, int destinationIndex)
 	{
 		int arraySize = node.getArraySize(); //This will get the size of the visited node's neighbor array
 		int minWeight = 101; //Max possible weight for a connection is 100
@@ -87,12 +87,18 @@ public class Dijkstra
 				}
 			}
 			
+			if(currentNodeCheck == destinationIndex)
+			{
+				minNodeNumber = currentNodeCheck;
+				break;
+			}
+			
 		}
 		
 		//If minNodeNumber == -1, then there were no available connections that were not already added to the spSet
 		//Now the program will look for any unvisited neighbors to begin checking connections again. If there are no more unvisited nodes
 		//then it will still return a -1 value. 
-		if (minNodeNumber == -1)
+		if (minNodeNumber == -1 && !(minNodeNumber == destinationIndex))
 		{
 			for (int i = 0; i < graph.getNumOfNodes(); i++)
 			{
@@ -110,13 +116,17 @@ public class Dijkstra
 	
 	//This method will start the algorithm's run and then record the total shortest distances from the initial node to the other nodes in the graph. It takes in the generated graph object,
 	//the initial node object and the spSet array for recording distances. It does not return a value. 
-	public void algorithmRun(graphGenerator graph, NetworkNode inital, int[] spSet)
+	public void algorithmRun(graphGenerator graph, NetworkNode inital, int[] spSet, int destinationIndex)
 	{	
-		int nextNodeNumber = checkMinDistance(graph, inital, spSet); //Checks for the minimum distance between the initial node and its neighbors. Returns the neighbor with the shortest distance. 
+		int nextNodeNumber = checkMinDistance(graph, inital, spSet, destinationIndex); //Checks for the minimum distance between the initial node and its neighbors. Returns the neighbor with the shortest distance. 
 		
 		if (nextNodeNumber == -1) //The base case for the recursive function. If it is -1 from the start, it means the initial node is disconnected from the graph. 
 		{
 			System.out.println("The inital node is disconnected");
+		}
+		if (nextNodeNumber == destinationIndex)
+		{
+			System.out.println("Destination node was one step away!");
 		}
 		else //If the value is not -1, then it will begin the recursive run. 
 		{
@@ -124,20 +134,24 @@ public class Dijkstra
 			
 			NetworkNode nextNode = graph.grabNode(nextNodeNumber); //Creates a reference to the next node to visit
 			
-			System.out.println("The node path is: Node: " + inital.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " ")); //Runs the recursive function to the next iteration for the next node. This
+			System.out.println("The node path is: Node: " + inital.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, destinationIndex, " ")); //Runs the recursive function to the next iteration for the next node. This
 			//recursive run will return a string for each iteration to show the path that the algorithm took. MAINLY FOR BUG TESTING
 		}
 		
 	}
 	
 	//The recursive portion of the simulation run. It takes in the generated graph object, the currently visited node object, the spSet array for distances and the returning string value. It returns a String value.  
-	public String algorithmRun(graphGenerator graph, NetworkNode currentNode, int[] spSet, String toString)
+	public String algorithmRun(graphGenerator graph, NetworkNode currentNode, int[] spSet, int destinationIndex, String toString)
 	{
-		int nextNodeNumber = checkMinDistance(graph, currentNode, spSet); //Checks for the minimum distance between the initial node and its neighbors. Returns the neighbor with the shortest distance. 
+		int nextNodeNumber = checkMinDistance(graph, currentNode, spSet, destinationIndex); //Checks for the minimum distance between the initial node and its neighbors. Returns the neighbor with the shortest distance. 
 		
 		if (nextNodeNumber == -1) //The base case for the recursive function. If this value is -1 then that means there are no more unvisited nodes within the graph. 
 		{
 			return toString + "No more connections at " + currentNode.getNodeNumber() + "!";
+		}
+		if (nextNodeNumber == destinationIndex)
+		{
+			return toString + "DESTINATION REACHED: NODE " + destinationIndex + "!";
 		}
 		else
 		{	
@@ -145,7 +159,7 @@ public class Dijkstra
 			
 			NetworkNode nextNode = graph.grabNode(nextNodeNumber); //Creates a reference to the next node to visit
 			
-			return toString + "Node:  " + currentNode.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, " "); //Runs the recursive function to the next iteration for the next node.
+			return toString + "Node:  " + currentNode.getNodeNumber() + " " + algorithmRun(graph, nextNode, spSet, destinationIndex, " "); //Runs the recursive function to the next iteration for the next node.
 		}
 		
 	}
