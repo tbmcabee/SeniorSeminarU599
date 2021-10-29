@@ -1,5 +1,6 @@
 package U599Research;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -11,6 +12,9 @@ public class Network
 	String choosenAlg; //A string value for choosing the specific algorithm to run within the simulation
 	int nodeNum; //The amount of nodes to generate within the graph
 	long[] avgSimTimes; //The long array that will be returned after the simulations have ran
+	long[] extraavgSimTimes; 
+	int[] simAcc;
+	int[] extrasimAcc;
 	
 	graphGenerator networkGraph; //The reference to the generated graph. It has not been generated yet, however this acts as a reference for the rest of the program to refer to if the network class
 								//needs it in other portions of the code.
@@ -33,12 +37,17 @@ public class Network
 		long avgSimRoundTime = 0; //This is the final avg value used to store the value of the avg running time between 50 simulations
 		long totalSimRoundTime = 0; //This is a running value used to keep the sum of the runs, it will be used to calculate the avg run time (ns)
 		int numOfSimulations = 50; //This variable will store the amount of simulations to be ran in a simulation round
+		int shortestDistance = 0;
+		int inAccurateCounter = 0;
 		int numOfPairs = 3; //This variable will store the amount of node pairs to be chosen per test
 		int inital; //This simply initialized the initial int, this will store a node int value
 		int finish; //This simply initialized the finish int, this will store a node int value
 		
 		//initializes the long array for recording the avg run time of each simulation round
 		avgSimTimes = new long[numOfPairs]; 
+		extraavgSimTimes = new long[numOfPairs]; 
+		simAcc = new int[numOfPairs];
+		extrasimAcc = new int[numOfPairs];
 		
 		
 		if (this.choosenAlg.equalsIgnoreCase("dijkstra")) //runs the simulations for Dijkstra algorithm
@@ -51,42 +60,147 @@ public class Network
 				inital = currentNodePair.getRandOne();
 				finish = currentNodePair.getRandTwo();
 				
+				totalSimRoundTime = 0;
+				inAccurateCounter = 0;
+				
 				for (int b = 0; b < numOfSimulations; b++) //This for loop runs 1 simulation round's worth of simulations
 				{
 					//This will initalize a Dijkstra object for 1 simulation and run it based upon the generated graph, the initial node and the finish node
 					Dijkstra test = new Dijkstra(networkGraph, inital, finish);
 					//This will add the time ran for the specific simulation onto the running time total for the simulation round
 					totalSimRoundTime += test.getElapsedTime(); 
+					
+					if ((b != 0) && (shortestDistance != test.getShortestDistance()))
+					{
+						inAccurateCounter += 1;
+					}
+					else
+					{
+						shortestDistance = test.getShortestDistance();
+					}
 				}
 				
 				//This ground of statements will divide out the avg time ran for the simulation round and then add it onto the long array
 				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
 				avgSimTimes[i] = avgSimRoundTime;
+				simAcc[i] = inAccurateCounter;
 			}
 			
 			return avgSimTimes; //This returns the long array back out of the network after the simulation has been called
 		}
 		else if (this.choosenAlg.equalsIgnoreCase("bellman ford")) //runs the simulations for the Bellman Ford algorithm
 		{
-//			for (int i = 0; i < numOfPairs; i++)
-//			{
-//				randomPair currentNodePair = nodePicker(this.networkGraph);
-//				
-//				inital = currentNodePair.getRandOne();
-//				finish = currentNodePair.getRandTwo();
-//				
-//				for (int b = 0; b < numOfSimulations; b++)
-//				{
-//					
-//					BellmanFord test = new BellmanFord(networkGraph, inital, finish);
-//					totalSimRoundTime += test.getElapsedTime();
-//				}
-//				
-//				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
-//				avgSimTimes[i] = avgSimRoundTime;
-//			}
-//			
-			return avgSimTimes;
+			for (int i = 0; i < numOfPairs; i++) //This for loop runs the amount of node pairs chosen times
+			{
+				//this creates a randomPair object to store the random nodes chosen for this specific pair
+				randomPair currentNodePair = nodePicker(this.networkGraph);
+				
+				inital = currentNodePair.getRandOne();
+				finish = currentNodePair.getRandTwo();
+				
+				totalSimRoundTime = 0;
+				inAccurateCounter = 0;
+				
+				for (int b = 0; b < numOfSimulations; b++) //This for loop runs 1 simulation round's worth of simulations
+				{
+					//This will initalize a BellmanFord object for 1 simulation and run it based upon the generated graph, the initial node and the finish node
+					BellmanFord test = new BellmanFord(networkGraph, inital, finish);
+					//This will add the time ran for the specific simulation onto the running time total for the simulation round
+					totalSimRoundTime += test.getElapsedTime(); 
+					
+					if ((b != 0) && (shortestDistance != test.getShortestDistance()))
+					{
+						inAccurateCounter += 1;
+					}
+					else
+					{
+						shortestDistance = test.getShortestDistance();
+					}
+				}
+				
+				//This ground of statements will divide out the avg time ran for the simulation round and then add it onto the long array
+				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
+				avgSimTimes[i] = avgSimRoundTime;
+				simAcc[i] = inAccurateCounter;
+			}
+			
+			return avgSimTimes; //This returns the long array back out of the network after the simulation has been called
+		}
+		else if (this.choosenAlg.equalsIgnoreCase("both")) 
+		{
+			
+			for (int i = 0; i < numOfPairs; i++) //This for loop runs the amount of node pairs chosen times
+			{
+				//this creates a randomPair object to store the random nodes chosen for this specific pair
+				randomPair currentNodePair = nodePicker(this.networkGraph);
+				
+				inital = currentNodePair.getRandOne();
+				finish = currentNodePair.getRandTwo();
+				
+				totalSimRoundTime = 0;
+				inAccurateCounter = 0;
+				
+				for (int b = 0; b < numOfSimulations; b++) //This for loop runs 1 simulation round's worth of simulations
+				{
+					//This will initalize a Dijkstra object for 1 simulation and run it based upon the generated graph, the initial node and the finish node
+					Dijkstra testDij = new Dijkstra(networkGraph, inital, finish);
+					//This will add the time ran for the specific simulation onto the running time total for the simulation round
+					totalSimRoundTime += testDij.getElapsedTime(); 
+					
+					if ((b != 0) && (shortestDistance != testDij.getShortestDistance()))
+					{
+						inAccurateCounter += 1;
+					}
+					else
+					{
+						shortestDistance = testDij.getShortestDistance();
+					}
+				}
+				
+				//This ground of statements will divide out the avg time ran for the simulation round and then add it onto the long array
+				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
+				avgSimTimes[i] = avgSimRoundTime;
+				simAcc[i] = inAccurateCounter;
+				
+				totalSimRoundTime = 0;
+				inAccurateCounter = 0;
+				
+				for (int b = 0; b < numOfSimulations; b++) //This for loop runs 1 simulation round's worth of simulations
+				{
+					//This will initalize a BellmanFord object for 1 simulation and run it based upon the generated graph, the initial node and the finish node
+					BellmanFord testBell = new BellmanFord(networkGraph, inital, finish);
+					//This will add the time ran for the specific simulation onto the running time total for the simulation round
+					totalSimRoundTime += testBell.getElapsedTime(); 
+					
+					if ((b != 0) && (shortestDistance != testBell.getShortestDistance()))
+					{
+						inAccurateCounter += 1;
+					}
+					else
+					{
+						shortestDistance = testBell.getShortestDistance();
+					}
+				}
+				
+				//This ground of statements will divide out the avg time ran for the simulation round and then add it onto the long array
+				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
+				extraavgSimTimes[i] = avgSimRoundTime;
+				extrasimAcc[i] = inAccurateCounter;
+			}
+			
+			long[] combinedArray = new long[6];
+			
+			for (int i = 0; i < 3; i++)
+			{
+				combinedArray[i] = avgSimTimes[i];
+			}
+			
+			for (int i = 0; i < 3; i++)
+			{
+				combinedArray[i+3] = extraavgSimTimes[i];
+			}
+			
+			return combinedArray; //This returns the long array back out of the network after the simulation has been called
 		}
 		else //This else conditional will return a console output to inform the user they choose an algorithm that is not included within the tests
 		{
@@ -114,6 +228,11 @@ public class Network
 		randomPair newNodePair = new randomPair(node1, node2);
 		
 		return newNodePair; //returns the randomPair object
+	}
+	
+	public void writeResults(String filePath) throws IOException
+	{
+		//Will write results to a txt file!!!
 	}
 
 	public String getChoosenAlg() //getter for the alg string

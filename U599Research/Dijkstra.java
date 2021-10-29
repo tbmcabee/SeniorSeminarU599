@@ -6,6 +6,7 @@ public class Dijkstra
 	long startTime; //Creates a long data value for the simulation run start time
 	long endTime; //Creates a long data value for the simulation run end time
 	long elapsedTime; //Creates a long data value for the simulation run total elapsed time (start time - end time)
+	int shortestDistance;
 	
 	//The program constructor that will begin the simulation run and record the running times for a single simulation
 	public Dijkstra(graphGenerator graph, int node1, int node2)
@@ -15,7 +16,6 @@ public class Dijkstra
 		
 		int numberOfNodes = graphGenerator.numberOfNodes; //creates an int value to store the numberOfNodes generated (A local reference within the class)
 		int[] spSet = new int[numberOfNodes]; //creates a int array for storing the running list of distances within the simulation
-		
 		
 		for (int i = 0; i < numberOfNodes; i++) //This for loop sets the inital distances for the entire spSet array. -1 represents an infinite value. 
 		{
@@ -35,7 +35,9 @@ public class Dijkstra
 		algorithmRun(graph, initalNode, spSet, node2); //Runs the simulation to completion
 		endTime = System.nanoTime(); //This will record the end time (In ns)
 		
-		System.out.println("The total shortest distance from Node " + node1 + " to Node " + node2 + " is " + finalNode.getTotalWeight()); //A string to output the final total distance for the shortest path
+		shortestDistance = finalNode.getTotalWeight();
+		
+		System.out.println("The total shortest distance from Node " + node1 + " to Node " + node2 + " is " + shortestDistance); //A string to output the final total distance for the shortest path
 		elapsedTime = endTime - startTime; //Calculates the elapsed time
 		
 		for (int i = 0; i < numberOfNodes; i ++) //This for loop resets the visited value within the NetworkNode variables so that the nodes can be revisited when the simulation restarts
@@ -193,5 +195,16 @@ public class Dijkstra
 	{
 		this.elapsedTime = elapsedTime;
 	}
+	
+	public int getShortestDistance() 
+	{
+		return shortestDistance;
+	}
+
+	public void setShortestDistance(int shortestDistance) 
+	{
+		this.shortestDistance = shortestDistance;
+	}
+
 	
 }

@@ -10,6 +10,7 @@ public class graphGenerator
 	
 	static Random r = new Random(); //This statement creates a random object for generating random int values
 	
+	
 	ArrayList<NetworkNode> graphList = new ArrayList<>(numberOfNodes); //This statement creates a ArrayList that will store the node reference to each NetworkNode object within the generated graph
 	
 	//This method constructs a graphGenerator object that will store an ArrayList object that will store a list of NetworkNode object with varying weighted distances between each other 
@@ -17,7 +18,9 @@ public class graphGenerator
 	public graphGenerator(int n)
 	{
 		numberOfNodes = n; //sets the numberOfNodes value based upon n
-
+		
+		int[][] accuracyCheck = new int[numberOfNodes][numberOfNodes];
+		
 		for (int i = 0; i < numberOfNodes; i++) //This for loop generates the initial blank NetworkNode object based upon how many nodes need to generated and add the node to the graph's ArrayList
 		{
 			NetworkNode node = new NetworkNode(i);
@@ -83,7 +86,6 @@ public class graphGenerator
 			graphList.get(i+1).addEdge(graphList.get(i), randomEdgeWeight);
 		}
 
-		
 	}
 
 	//This method will take in the howManyConnect int array, the first random generated int value, the second random generated int value and the amount of nodes to be generated within the graph 
