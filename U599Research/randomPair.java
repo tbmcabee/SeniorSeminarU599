@@ -12,6 +12,11 @@ public class randomPair
 		randOne = r1;
 		randTwo = r2;
 	}
+	
+	public String toString()
+	{
+		return "Node " + randOne + " to Node " + randTwo;
+	}
 
 	public int getRandOne() //getter for the first random object value
 	{

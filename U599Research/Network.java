@@ -15,6 +15,9 @@ public class Network
 	long[] extraavgSimTimes; 
 	int[] simAcc;
 	int[] extrasimAcc;
+	long[] combinedArray;
+	int[] combinedAcc;
+	randomPair[] nodeChoices;
 	
 	graphGenerator networkGraph; //The reference to the generated graph. It has not been generated yet, however this acts as a reference for the rest of the program to refer to if the network class
 								//needs it in other portions of the code.
@@ -48,7 +51,7 @@ public class Network
 		extraavgSimTimes = new long[numOfPairs]; 
 		simAcc = new int[numOfPairs];
 		extrasimAcc = new int[numOfPairs];
-		
+		nodeChoices = new randomPair[numOfPairs];
 		
 		if (this.choosenAlg.equalsIgnoreCase("dijkstra")) //runs the simulations for Dijkstra algorithm
 		{
@@ -84,6 +87,7 @@ public class Network
 				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
 				avgSimTimes[i] = avgSimRoundTime;
 				simAcc[i] = inAccurateCounter;
+				nodeChoices[i] = currentNodePair;
 			}
 			
 			return avgSimTimes; //This returns the long array back out of the network after the simulation has been called
@@ -122,6 +126,7 @@ public class Network
 				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
 				avgSimTimes[i] = avgSimRoundTime;
 				simAcc[i] = inAccurateCounter;
+				nodeChoices[i] = currentNodePair;
 			}
 			
 			return avgSimTimes; //This returns the long array back out of the network after the simulation has been called
@@ -186,9 +191,11 @@ public class Network
 				avgSimRoundTime = totalSimRoundTime/numOfSimulations;
 				extraavgSimTimes[i] = avgSimRoundTime;
 				extrasimAcc[i] = inAccurateCounter;
+				nodeChoices[i] = currentNodePair;
 			}
 			
-			long[] combinedArray = new long[6];
+			combinedArray = new long[6];
+			combinedAcc = new int[6];
 			
 			for (int i = 0; i < 3; i++)
 			{
@@ -198,6 +205,16 @@ public class Network
 			for (int i = 0; i < 3; i++)
 			{
 				combinedArray[i+3] = extraavgSimTimes[i];
+			}
+			
+			for (int i = 0; i < 3; i++)
+			{
+				combinedAcc[i] = simAcc[i];
+			}
+			
+			for (int i = 0; i < 3; i++)
+			{
+				combinedAcc[i+3] = extrasimAcc[i];
 			}
 			
 			return combinedArray; //This returns the long array back out of the network after the simulation has been called
@@ -210,7 +227,7 @@ public class Network
 		}
 		
 	}
-	
+
 	//This method will create a randomPair object to store a pair of picked nodes within the graph. It will generate 2 random int values between 0 and the amount of nodes generated within the graph 
 	//(Without a redundant choice) from the random constructor object initialized earlier in the program. 
 	public randomPair nodePicker(graphGenerator graph) 
@@ -265,4 +282,77 @@ public class Network
 		this.networkGraph = networkGraph;
 	}
 	
+	public long[] getAvgSimTimes() 
+	{
+		return avgSimTimes;
+	}
+
+	public void setAvgSimTimes(long[] avgSimTimes) 
+	{
+		this.avgSimTimes = avgSimTimes;
+	}
+
+	public long[] getExtraavgSimTimes() {
+		return extraavgSimTimes;
+	}
+
+	public void setExtraavgSimTimes(long[] extraavgSimTimes) 
+	{
+		this.extraavgSimTimes = extraavgSimTimes;
+	}
+
+	public int[] getSimAcc() 
+	{
+		return simAcc;
+	}
+
+	public void setSimAcc(int[] simAcc) 
+	{
+		this.simAcc = simAcc;
+	}
+
+	public int[] getExtrasimAcc() 
+	{
+		return extrasimAcc;
+	}
+
+	public void setExtrasimAcc(int[] extrasimAcc) 
+	{
+		this.extrasimAcc = extrasimAcc;
+	}
+
+	public Random getR() 
+	{
+		return r;
+	}
+
+	public void setR(Random r) 
+	{
+		this.r = r;
+	}
+	
+	public long[] getCombinedArray() 
+	{
+		return combinedArray;
+	}
+
+	public void setCombinedArray(long[] combinedArray) 
+	{
+		this.combinedArray = combinedArray;
+	}
+
+	public int[] getCombinedAcc() 
+	{
+		return combinedAcc;
+	}
+
+	public void setCombinedAcc(int[] combinedAcc) 
+	{
+		this.combinedAcc = combinedAcc;
+	}
+	
+	public randomPair[] getNodeChoices()
+	{
+		return nodeChoices;
+	}
 }

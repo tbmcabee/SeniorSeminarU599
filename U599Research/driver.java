@@ -42,6 +42,8 @@ public class driver
 			//This statement calls upon the simulationRun method from the network class that will run the specifically decided algorithm through the generated test graph, and then send that data from 
 			//the test into a initialized array of long values. 
 			long[] simRuns = test.simulationRun();
+			int[] accRuns = test.getCombinedAcc();
+			randomPair[] nodes = test.getNodeChoices();
 			
 			//The following group of statements simply outputs the simulated data into an easily readable format. This method will be utilized for reading computed data
 			//until the txt file recording method is implemented into the program.
@@ -50,7 +52,11 @@ public class driver
 			
 			for (int i = 0; i < 3; i++)
 			{
-				System.out.println("Tested Pair #" + (i+1) + " Computational Time: " + simRuns[i]);
+				System.out.println();
+				System.out.println("Tested Pair #" + (i+1));
+				System.out.println("Pair Nodes: " + nodes[i].toString());
+				System.out.println("Computational Time: " + simRuns[i]);
+				System.out.println("Accuracy: " + (((50-accRuns[i])/50)*100) + "%");
 			}
 			
 			System.out.println();
@@ -58,7 +64,11 @@ public class driver
 			
 			for (int i = 0; i < 3; i++)
 			{
-				System.out.println("Tested Pair #" + (i+3) + " Computational Time: " + simRuns[i+3]);
+				System.out.println();
+				System.out.println("Tested Pair #" + (i+1));
+				System.out.println("Pair Nodes: " + nodes[i].toString());
+				System.out.println("Computational Time: " + simRuns[i+3]);
+				System.out.println("Accuracy:" + (((50-accRuns[i+3])/50)*100) + "%");
 			}
 			
 			System.out.println("Would you like to show the generated graph and its connections? (y/n)");
