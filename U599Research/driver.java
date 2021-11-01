@@ -1,5 +1,6 @@
 package U599Research;
 
+import java.io.IOException;
 import java.util.*;
 
 public class driver
@@ -39,46 +40,61 @@ public class driver
 			//of Dijkstra so that it automatically runs the Dijkstra test
 			Network test = new Network("both", amountOfNodes);
 			
-			//This statement calls upon the simulationRun method from the network class that will run the specifically decided algorithm through the generated test graph, and then send that data from 
-			//the test into a initialized array of long values. 
-			long[] simRuns = test.simulationRun();
-			int[] accRuns = test.getCombinedAcc();
-			randomPair[] nodes = test.getNodeChoices();
+			System.out.println("Enter the name of the file to be generated with dataset result!");
+			String inputFilename = input.nextLine(); //These statements take in a string value that will represent the amount of nodes the user wants to generate and test
 			
-			//The following group of statements simply outputs the simulated data into an easily readable format. This method will be utilized for reading computed data
-			//until the txt file recording method is implemented into the program.
-			System.out.println();
-			System.out.println("The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph ");
+			//This if statement allows the user to input the word stop to break out of the infinite loop
 			
-			for (int i = 0; i < 3; i++)
+			try 
 			{
-				System.out.println();
-				System.out.println("Tested Pair #" + (i+1));
-				System.out.println("Pair Nodes: " + nodes[i].toString());
-				System.out.println("Computational Time: " + simRuns[i]);
-				System.out.println("Accuracy: " + (((50-accRuns[i])/50)*100) + "%");
+				test.writeResults(inputFilename);
+			} 
+			catch (IOException exp) 
+			{
+				System.out.println("File write was unsuccessful!!!");
+				exp.printStackTrace();
 			}
 			
-			System.out.println();
-			System.out.println("The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph ");
-			
-			for (int i = 0; i < 3; i++)
-			{
-				System.out.println();
-				System.out.println("Tested Pair #" + (i+1));
-				System.out.println("Pair Nodes: " + nodes[i].toString());
-				System.out.println("Computational Time: " + simRuns[i+3]);
-				System.out.println("Accuracy:" + (((50-accRuns[i+3])/50)*100) + "%");
-			}
-			
-			System.out.println("Would you like to show the generated graph and its connections? (y/n)");
-			inputNodes = input.nextLine();
-			
-			if (inputNodes.equalsIgnoreCase("y"))
-			{
-				test.getNetworkGraph().printNodeConnections(test.getNetworkGraph().getGraphList(), amountOfNodes);
-				
-			}
+//			//This statement calls upon the simulationRun method from the network class that will run the specifically decided algorithm through the generated test graph, and then send that data from 
+//			//the test into a initialized array of long values. 
+//			long[] simRuns = test.simulationRun();
+//			int[] accRuns = test.getCombinedAcc();
+//			randomPair[] nodes = test.getNodeChoices();
+//			
+//			//The following group of statements simply outputs the simulated data into an easily readable format. This method will be utilized for reading computed data
+//			//until the txt file recording method is implemented into the program.
+//			System.out.println();
+//			System.out.println("The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph ");
+//			
+//			for (int i = 0; i < 3; i++)
+//			{
+//				System.out.println();
+//				System.out.println("Tested Pair #" + (i+1));
+//				System.out.println("Pair Nodes: " + nodes[i].toString());
+//				System.out.println("Computational Time: " + simRuns[i]);
+//				System.out.println("Accuracy: " + (((50-accRuns[i])/50)*100) + "%");
+//			}
+//			
+//			System.out.println();
+//			System.out.println("The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph ");
+//			
+//			for (int i = 0; i < 3; i++)
+//			{
+//				System.out.println();
+//				System.out.println("Tested Pair #" + (i+1));
+//				System.out.println("Pair Nodes: " + nodes[i].toString());
+//				System.out.println("Computational Time: " + simRuns[i+3]);
+//				System.out.println("Accuracy:" + (((50-accRuns[i+3])/50)*100) + "%");
+//			}
+//			
+//			System.out.println("Would you like to show the generated graph and its connections? (y/n)");
+//			inputNodes = input.nextLine();
+//			
+//			if (inputNodes.equalsIgnoreCase("y"))
+//			{
+//				test.getNetworkGraph().printNodeConnections(test.getNetworkGraph().getGraphList(), amountOfNodes);
+//				
+//			}
 			
 			
 		}

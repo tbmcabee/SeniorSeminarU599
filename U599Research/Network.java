@@ -1,6 +1,9 @@
 package U599Research;
 
 import java.io.IOException;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter; 
 import java.util.*;
 
 
@@ -247,9 +250,75 @@ public class Network
 		return newNodePair; //returns the randomPair object
 	}
 	
-	public void writeResults(String filePath) throws IOException
+	public void writeResults(String fileName) throws IOException
 	{
-		//Will write results to a txt file!!!
+		try 
+		{
+			File results = new File(fileName + ".txt");
+			
+			if (results.createNewFile()) 
+			{
+		        try
+		        {
+		        	FileWriter writerOfFiles = new FileWriter(fileName + ".txt");
+					
+					//This statement calls upon the simulationRun method from the network class that will run the specifically decided algorithm through the generated test graph, and then send that data from 
+					//the test into a initialized array of long values. 
+					long[] simRuns = simulationRun();
+					int[] accRuns = getCombinedAcc();
+					randomPair[] nodes = getNodeChoices();
+					
+					//The following group of statements simply outputs the simulated data into an easily readable format. This method will be utilized for reading computed data
+					//until the txt file recording method is implemented into the program.
+					writerOfFiles.write("\n");
+					writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph\n");
+					
+					for (int i = 0; i < 3; i++)
+					{
+						writerOfFiles.write("\n");
+						writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
+						writerOfFiles.write("Pair Nodes: " + nodes[i].toString() + "\n");
+						writerOfFiles.write("Computational Time: " + simRuns[i] + "\n");
+						writerOfFiles.write("Accuracy: " + (((50-accRuns[i])/50)*100) + "%\n");
+					}
+					
+					writerOfFiles.write("\n");
+					writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph\n");
+					
+					for (int i = 0; i < 3; i++)
+					{
+						writerOfFiles.write("\n");
+						writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
+						writerOfFiles.write("Pair Nodes: " + nodes[i].toString() + "\n");
+						writerOfFiles.write("Computational Time: " + simRuns[i+3] + "\n");
+						writerOfFiles.write("Accuracy:" + (((50-accRuns[i+3])/50)*100) + "% \n");
+					}
+					
+					writerOfFiles.write("\n");
+					writerOfFiles.write(networkGraph.printNodeConnections(networkGraph.getGraphList(), nodeNum));
+					
+		        	writerOfFiles.close();
+		        	
+		        	System.out.println("File write successful!");
+		        }
+		        catch (IOException exp)
+		        {
+		        	System.out.println("An error has occured while trying to write the file!");
+		        	exp.printStackTrace();
+		        }
+		    } 
+			else 
+			{
+		        System.out.println("A results file already exists with that name");
+		    }
+			
+		} 
+		catch (IOException exp)
+		{
+			System.out.println("An error has been caught!");
+		    exp.printStackTrace();
+		}
+		
 	}
 
 	public String getChoosenAlg() //getter for the alg string

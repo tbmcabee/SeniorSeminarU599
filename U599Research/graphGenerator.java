@@ -1,6 +1,7 @@
 package U599Research;
 
 import java.util.*;
+import java.lang.Math;
 
 ///This class handles the generation of the dataset graph based upon the inputed value of the amount of nodes to be generated, as well as a debugger method, random pair checker method and the inital graph connection method 
 //for ensuring a continuous connection throughout the generated graph
@@ -115,11 +116,15 @@ public class graphGenerator
 	
 	//This method takes in the graph's ArrayList and the int value representing the amount of nodes to be generated
 	//It does not return a direct value. This method is specifically for debugging. 
-	public void printNodeConnections(ArrayList<NetworkNode> graphList, int numNodes)
+	public String printNodeConnections(ArrayList<NetworkNode> graphList, int numNodes)
 	{
-		for (int i = 0; i < numNodes; i++) //This for loop will index through the graph list and list out the toString connections for every node within the graph.
+		if (numNodes == 0)
 		{
-			System.out.println(graphList.get(i).toString());
+			return "\n";
+		}
+		else
+		{
+			return graphList.get(Math.abs(numNodes - numberOfNodes)).toString() + "\n" + printNodeConnections(graphList, numNodes-1);
 		}
 	}
 	
