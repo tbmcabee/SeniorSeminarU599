@@ -1,0 +1,102 @@
+
+The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph
+
+Tested Pair #1
+Pair Nodes: Node 9 to Node 6
+Computational Time: 31496
+Accuracy: 100%
+
+Tested Pair #2
+Pair Nodes: Node 4 to Node 1
+Computational Time: 20176
+Accuracy: 100%
+
+Tested Pair #3
+Pair Nodes: Node 1 to Node 3
+Computational Time: 54552
+Accuracy: 100%
+
+The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph
+
+Tested Pair #1
+Pair Nodes: Node 9 to Node 6
+Computational Time: 146004
+Accuracy:100% 
+
+Tested Pair #2
+Pair Nodes: Node 4 to Node 1
+Computational Time: 104382
+Accuracy:100% 
+
+Tested Pair #3
+Pair Nodes: Node 1 to Node 3
+Computational Time: 63126
+Accuracy:100% 
+
+Connections for Node 0: N: (1) W: (34) N: (6) W: (60)  
+Connections for Node 1: N: (0) W: (34) N: (2) W: (44) N: (9) W: (40)  
+Connections for Node 2: N: (1) W: (44) N: (3) W: (34) N: (5) W: (51)  
+Connections for Node 3: N: (2) W: (34) N: (4) W: (11)  
+Connections for Node 4: N: (3) W: (11) N: (5) W: (19)  
+Connections for Node 5: N: (4) W: (19) N: (6) W: (95) N: (7) W: (42) N: (2) W: (51)  
+Connections for Node 6: N: (5) W: (95) N: (7) W: (7) N: (0) W: (60) N: (8) W: (77)  
+Connections for Node 7: N: (6) W: (7) N: (8) W: (32) N: (5) W: (42)  
+Connections for Node 8: N: (7) W: (32) N: (9) W: (68) N: (6) W: (77)  
+Connections for Node 9: N: (8) W: (68) N: (1) W: (40)  
+
+
+The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph
+
+Tested Pair #1
+Pair Nodes: Node 18 to Node 13
+Computational Time: 31268
+Accuracy: 100%
+
+Tested Pair #2
+Pair Nodes: Node 16 to Node 9
+Computational Time: 9388
+Accuracy: 100%
+
+Tested Pair #3
+Pair Nodes: Node 14 to Node 5
+Computational Time: 11578
+Accuracy: 100%
+
+The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph
+
+Tested Pair #1
+Pair Nodes: Node 18 to Node 13
+Computational Time: 82314
+Accuracy:100% 
+
+Tested Pair #2
+Pair Nodes: Node 16 to Node 9
+Computational Time: 140666
+Accuracy:100% 
+
+Tested Pair #3
+Pair Nodes: Node 14 to Node 5
+Computational Time: 698342
+Accuracy:100% 
+
+Connections for Node 0: N: (1) W: (83)  
+Connections for Node 1: N: (0) W: (83) N: (2) W: (42) N: (15) W: (17)  
+Connections for Node 2: N: (1) W: (42) N: (3) W: (20) N: (11) W: (15)  
+Connections for Node 3: N: (2) W: (20) N: (4) W: (98)  
+Connections for Node 4: N: (3) W: (98) N: (5) W: (81)  
+Connections for Node 5: N: (4) W: (81) N: (6) W: (32) N: (10) W: (6)  
+Connections for Node 6: N: (5) W: (32) N: (7) W: (96)  
+Connections for Node 7: N: (6) W: (96) N: (8) W: (28) N: (18) W: (18)  
+Connections for Node 8: N: (7) W: (28) N: (9) W: (95)  
+Connections for Node 9: N: (8) W: (95) N: (10) W: (27) N: (18) W: (0) N: (11) W: (26)  
+Connections for Node 10: N: (9) W: (27) N: (11) W: (19) N: (5) W: (6) N: (15) W: (13)  
+Connections for Node 11: N: (10) W: (19) N: (12) W: (91) N: (9) W: (26) N: (2) W: (15)  
+Connections for Node 12: N: (11) W: (91) N: (13) W: (31)  
+Connections for Node 13: N: (12) W: (31) N: (14) W: (48) N: (17) W: (41) N: (19) W: (73)  
+Connections for Node 14: N: (13) W: (48) N: (15) W: (44) N: (16) W: (41)  
+Connections for Node 15: N: (14) W: (44) N: (16) W: (14) N: (1) W: (17) N: (10) W: (13)  
+Connections for Node 16: N: (15) W: (14) N: (17) W: (90) N: (14) W: (41)  
+Connections for Node 17: N: (16) W: (90) N: (18) W: (59) N: (13) W: (41)  
+Connections for Node 18: N: (17) W: (59) N: (19) W: (44) N: (9) W: (0) N: (7) W: (18)  
+Connections for Node 19: N: (18) W: (44) N: (13) W: (73)  
+
