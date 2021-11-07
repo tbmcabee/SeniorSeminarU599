@@ -250,7 +250,7 @@ public class Network
 		return newNodePair; //returns the randomPair object
 	}
 	
-	public void writeResults(String fileName) throws IOException
+	public void writeResults(String fileName, String AlgorithmChoice) throws IOException
 	{
 		try 
 		{
@@ -260,7 +260,7 @@ public class Network
 			{
 				FileWriter writerOfFiles = new FileWriter(fileName + ".txt");
 				
-				fileWriter(writerOfFiles);
+				fileWriter(writerOfFiles, AlgorithmChoice);
 		    } 
 			else 
 			{
@@ -269,7 +269,7 @@ public class Network
 		        
 		        FileWriter writerOfFiles = new FileWriter(fileName + ".txt", true);
 		        
-		        fileWriter(writerOfFiles);
+		        fileWriter(writerOfFiles, AlgorithmChoice);
 		    }
 			
 		} 
@@ -281,7 +281,7 @@ public class Network
 		
 	}
 	
-	public void fileWriter(FileWriter writerOfFiles) throws IOException
+	public void fileWriter(FileWriter writerOfFiles, String AlgorithmChoice) throws IOException
 	{
 		try
         {
@@ -293,36 +293,86 @@ public class Network
 			
 			//The following group of statements simply outputs the simulated data into an easily readable format. This method will be utilized for reading computed data
 			//until the txt file recording method is implemented into the program.
-			writerOfFiles.write("\n");
-			writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph\n");
 			
-			for (int i = 0; i < 3; i++)
+			if (AlgorithmChoice.equalsIgnoreCase("dijkstra"))
 			{
 				writerOfFiles.write("\n");
-				writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
-				writerOfFiles.write("Pair Nodes: " + nodes[i].toString() + "\n");
-				writerOfFiles.write("Computational Time: " + simRuns[i] + "\n");
-				writerOfFiles.write("Accuracy: " + (((50-accRuns[i])/50)*100) + "%\n");
+				writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph\n");
+				
+				for (int i = 0; i < 3; i++)
+				{
+					writerOfFiles.write("\n");
+					writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
+					writerOfFiles.write("Selected Node Pair: " + nodes[i].toString() + "\n");
+					writerOfFiles.write("Algorithm Ran: " + AlgorithmChoice + "\n");
+					writerOfFiles.write("Average Time Elapsed: " + simRuns[i] + "\n");
+					writerOfFiles.write("Accuracy Ratio: " + (((50-accRuns[i])/50)*100) + "%\n");
+				}
+				
+				writerOfFiles.write("\n");
+				writerOfFiles.write(networkGraph.printNodeConnections(networkGraph.getGraphList(), nodeNum));
+				
+	        	writerOfFiles.close();
+	        	
+	        	System.out.println("File write successful!");
 			}
-			
-			writerOfFiles.write("\n");
-			writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph\n");
-			
-			for (int i = 0; i < 3; i++)
+			else if (AlgorithmChoice.equalsIgnoreCase("bellman"))
 			{
 				writerOfFiles.write("\n");
-				writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
-				writerOfFiles.write("Pair Nodes: " + nodes[i].toString() + "\n");
-				writerOfFiles.write("Computational Time: " + simRuns[i+3] + "\n");
-				writerOfFiles.write("Accuracy:" + (((50-accRuns[i+3])/50)*100) + "% \n");
+				writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph\n");
+				
+				for (int i = 0; i < 3; i++)
+				{
+					writerOfFiles.write("\n");
+					writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
+					writerOfFiles.write("Selected Node Pair: " + nodes[i].toString() + "\n");
+					writerOfFiles.write("Algorithm Ran: " + AlgorithmChoice + "\n");
+					writerOfFiles.write("Avaerage Time Elapsed: " + simRuns[i+3] + "\n");
+					writerOfFiles.write("Accuracy Ratio:" + (((50-accRuns[i+3])/50)*100) + "% \n");
+				}
+				
+				writerOfFiles.write("\n");
+				writerOfFiles.write(networkGraph.printNodeConnections(networkGraph.getGraphList(), nodeNum));
+				
+	        	writerOfFiles.close();
+	        	
+	        	System.out.println("File write successful!");
 			}
-			
-			writerOfFiles.write("\n");
-			writerOfFiles.write(networkGraph.printNodeConnections(networkGraph.getGraphList(), nodeNum));
-			
-        	writerOfFiles.close();
-        	
-        	System.out.println("File write successful!");
+			else
+			{
+				writerOfFiles.write("\n");
+				writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Dijkstra generated graph\n");
+				
+				for (int i = 0; i < 3; i++)
+				{
+					writerOfFiles.write("\n");
+					writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
+					writerOfFiles.write("Selected Node Pair: " + nodes[i].toString() + "\n");
+					writerOfFiles.write("Algorithm Ran: Dijkstra\n");
+					writerOfFiles.write("Average Time Elapsed: " + simRuns[i] + "\n");
+					writerOfFiles.write("Accuracy Ratio: " + (((50-accRuns[i])/50)*100) + "%\n");
+				}
+				
+				writerOfFiles.write("\n");
+				writerOfFiles.write("The average computational time (ns) of the 3 tested pairs within the Bellman Ford generated graph\n");
+				
+				for (int i = 0; i < 3; i++)
+				{
+					writerOfFiles.write("\n");
+					writerOfFiles.write("Tested Pair #" + (i+1) + "\n");
+					writerOfFiles.write("Selected Node Pair: " + nodes[i].toString() + "\n");
+					writerOfFiles.write("Algorithm Ran: Bellman Ford\n");
+					writerOfFiles.write("Avaerage Time Elapsed: " + simRuns[i+3] + "\n");
+					writerOfFiles.write("Accuracy Ratio:" + (((50-accRuns[i+3])/50)*100) + "% \n");
+				}
+				
+				writerOfFiles.write("\n");
+				writerOfFiles.write(networkGraph.printNodeConnections(networkGraph.getGraphList(), nodeNum));
+				
+	        	writerOfFiles.close();
+	        	
+	        	System.out.println("File write successful!");
+			}
         }
         catch (IOException exp)
         {

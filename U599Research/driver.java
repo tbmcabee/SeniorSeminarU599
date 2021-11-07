@@ -60,7 +60,7 @@ public class driver
 		
 		try 
 		{
-			test.writeResults(filename);
+			test.writeResults(filename, choice);
 		} 
 		catch (IOException exp) 
 		{
